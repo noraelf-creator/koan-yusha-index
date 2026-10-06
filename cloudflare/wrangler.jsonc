@@ -1,0 +1,7 @@
+{
+ "name":"koan-yusha-sync",
+ "main":"worker/index.mjs",
+ "compatibility_date":"2026-10-06",
+ "vars":{"PROJECT_ID":"koan_yusha","ALLOWED_ORIGIN":"https://noraelf-creator.github.io","SESSION_DAYS":"30"},
+ "d1_databases":[{"binding":"DB","database_name":"koan-yusha-author-notes","database_id":"95b82be2-8392-4d91-9dd9-32b81fe962d2","migrations_dir":"migrations"}]
+}

@@ -19,7 +19,7 @@
 | 評価と課題 | `REPORT.md` |
 | 作業メモ（判断J01〜J33、原文抜粋、DFE3図版の書き起こし、旧GM資料の台詞） | `_作業メモ/` |
 | 改訂元（読み取りのみ・未変更） | `C:\00_【創作】一時フォルダ\こちら公安勇者パーティ_HTMLアーカイブ\`（OLD_VERSION／NEW_VERSION） |
-| **制作INDEXサイト（閲覧・修正案）** | https://noraelf-creator.github.io/koan-yusha-index/ （リポジトリ noraelf-creator/koan-yusha-index、ローカル `C:\02_claude.projects\koan-yusha-index`）。このフォルダを直したら `npm run sync`→`npm run build`→push。修正案は現在「端末内の下書き」のみ（この作品の編集キーが共有保存先に未登録。登録手順はサイトのREADME） |
+| **制作INDEXサイト（閲覧・修正案）** | https://noraelf-creator.github.io/koan-yusha-index/ （リポジトリ noraelf-creator/koan-yusha-index、ローカル `C:\02_claude.projects\koan-yusha-index`）。このフォルダを直したら `npm run sync`→`npm run build`→push。修正案は共有保存（専用のCloudflare Worker `koan-yusha-sync`、D1 `koan-yusha-author-notes`）。作者用編集キーの控えは `.private/作者用編集キー.txt` |
 
 ## 2. 正本の優先順位
 

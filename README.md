@@ -12,24 +12,22 @@
 
 ## 修正案の保存先
 
-- 共有保存：Cloudflare Worker `mother-president-sync`（D1 `mother-president-author-notes`）、projectId `koan_yusha`、page_id の先頭 `rv1-`。他作品のメモとは projectId で分かれる
-- **いまは端末内の下書きのみ**。この作品の編集キーをまだWorkerに登録していないため、「編集キー」で解除しようとすると「この作品の編集キーは設定されていません」になる。修正案は端末のブラウザーに下書きとして残り、「すべて」タブからMarkdown／JSONで書き出せる。登録後に解除すれば「下書きを共有へ送る」で送れる
-- 編集キーはこのリポジトリに含めない
+- 共有保存：この作品専用の Cloudflare Worker `koan-yusha-sync`（D1 `koan-yusha-author-notes`、projectId `koan_yusha`、page_id の先頭 `rv1-`）。https://koan-yusha-sync.noraelf-mta-review.workers.dev 。他作品のWorker・DBとは別
+- 閲覧は誰でも可。サイト上部の「編集キー」に作者用の編集キーを入れると、その端末から共有保存できる（30日間有効）
+- 解除していない間は、端末のブラウザーに下書きとして残る（あとで「下書きを共有へ送る」）。「すべて」タブから未反映の修正案をMarkdown／JSONで書き出せる
+- 編集キーはこのリポジトリに含めない。作者用の控えは改訂フォルダの `.private/作者用編集キー.txt`
 
-## 編集キーの登録（Cloudflareにログインできるときに1回だけ）
+## Worker（`cloudflare/`）
 
-Workerのソースと設定は mother-president-index の `v2/cloudflare/`。作品ごとのキーは Secret `ADDITIONAL_PROJECT_KEYS`（JSON：projectId → キー）で持つ。Workerのコードは変えない。
+お母さんは大統領と同じWorkerのコードと、この作品用の設定（`wrangler.jsonc`）。2026-10-06にデプロイ済み。
 
 ```
-cd C:\02_claude.projects\mother-president-index\v2\cloudflare
-npx wrangler login
-npx wrangler secret list                        # ADDITIONAL_PROJECT_KEYS がすでにあるか（名前だけ見える）
-npx wrangler secret put ADDITIONAL_PROJECT_KEYS
-# 入力例：{"koan_yusha":"<作者用の編集キー>"}
+cd cloudflare
+npx wrangler deploy                       # コードを直したとき
+npx wrangler secret put AUTHOR_EDIT_KEY   # 編集キーを変えるとき（入れたら .private の控えも直す）
 ```
 
-- `secret put` は値を丸ごと置き換える。すでに `ADDITIONAL_PROJECT_KEYS` がある場合（同じWorkerを使う M.T.A. の `mta` など）、今の値は読み出せないので、ほかの作品のキーも同じJSONに入れ直すこと。入れ忘れると、その作品で解除できなくなる
-- 編集キーは長いランダムな文字列にし、リポジトリの外（`.private` など）に保管する。メモ欄・チャットに貼らない
+`https://koan-yusha-sync.noraelf-mta-review.workers.dev/api/health` が `api: ok, d1: ok` なら動いている。
 
 ## 更新のしかた
 
@@ -53,5 +51,6 @@ npm run serve        # http://127.0.0.1:8765/ で確認（ローカルでは共�
 | `data/config.js` | 共有保存の接続先（公開してよい値だけ） |
 | `content/` | 元のMarkdown |
 | `tools/` | 写し・ビルド・ローカル確認・スクリーンショット |
+| `cloudflare/` | 共有保存のWorker（`koan-yusha-sync`） |
 
 このサイトは公開されている（URLを知っていれば誰でも読める。検索エンジンには載せない設定）。真相・GM情報を含むので、プレイヤーにURLを教えないこと。
